@@ -1,7 +1,7 @@
 # Django with Wagtail and WebPack Cookiecutter
 
 An opinionated [Cookiecutter](https://github.com/audreyr/cookiecutter) template for
-creating Django projects with Wagtail and Webpack.
+Django with Wagtail and Webpack.
 
 
 ## Features
