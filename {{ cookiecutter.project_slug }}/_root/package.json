@@ -1,0 +1,9 @@
+{
+    "scripts": {
+        "start": "webpack --mode development --watch",
+        "build": "webpack --mode production",
+        "styleguide": "nucleus"
+    },
+    "dependencies": {},
+    "devDependencies": {}
+}

@@ -1,0 +1,7 @@
+{
+    "project_name": "Django Project",
+    "project_slug": "{{ cookiecutter.project_name|trim|lower|replace(' ', '_') }}",
+    "project_title": "{{ cookiecutter.project_name|trim|title|replace(' ', '') }}",
+    "generate_docker": ["Yes", "No"],
+    "docker_cookiecutter": "{% if cookiecutter.generate_docker == 'Yes' %}gh:jmfederico/cookiecutter-django-docker{% else %} None {% endif %}"
+}
