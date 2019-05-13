@@ -66,10 +66,13 @@ docker run --rm -v "`pwd`:/var/lib/dotenver/" jmfederico/dotenver
 
 # Take a look to the generated dotenv (.env) file, and modify to your needs.
 
+# Build docker images
+docker-compose build
+
 # Make migrations
 docker-compose run --rm django ./manage.py makemigrations
 
-# Run 
+# Run your project
 docker-compose up -d
 ```
 
