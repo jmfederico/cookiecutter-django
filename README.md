@@ -30,7 +30,9 @@ It comes configured with:
 ```bash
 # Bake cookie!
 cookiecutter gh:jmfederico/cookiecutter-django
+```
 
+```bash
 # Setup python project
 poetry init
 # Install python dependencies
@@ -42,7 +44,9 @@ poetry add \
     django_debug_toolbar \
     django_heroku \
     gunicorn
+```
 
+```bash
 # Install node dependencies
 npm add -D \
     @babel/core \
@@ -68,18 +72,26 @@ npm add -D \
     webpack-bundle-tracker \
     webpack-cli \
     webpack-plugin-serve
+```
 
+```bash
 # Automatically generate dotenv files
 docker run --rm -v "`pwd`:/var/lib/dotenver/" jmfederico/dotenver
 
 # Take a look to the generated dotenv (.env) file, and modify to your needs.
+```
 
+```bash
 # Build docker images
 docker-compose build
+```
 
+```bash
 # Make migrations
 docker-compose run --rm django ./manage.py makemigrations
+```
 
+```bash
 # Run your project
 docker-compose up -d
 ```
