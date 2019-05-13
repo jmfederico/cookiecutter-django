@@ -3,6 +3,7 @@
 An opinionated [Cookiecutter](https://github.com/audreyr/cookiecutter) template for
 creating Django projects with Wagtail and Webpack.
 
+
 ## Features
 
 Ready to be used with:
@@ -16,6 +17,13 @@ Ready to be used with:
 It comes configured with:
 * A custom user model that extends the base Django user model.
 * Superuser authentication with credentials stored in environmental variables.
+
+
+## Requirements
+
+* [Poetry](https://poetry.eustace.io)
+* [NPM](https://docs.npmjs.com)
+
 
 ## Usage
 
