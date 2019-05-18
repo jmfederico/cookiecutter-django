@@ -83,17 +83,14 @@ docker run --rm -v "`pwd`:/var/lib/dotenver/" jmfederico/dotenver
 ```
 
 ```bash
-# Build docker images
+# Build and run your docker images
 docker-compose build
+docker-compose up -d
 ```
 
 ```bash
-# Make migrations
+# Make and run migrations
 docker-compose run --rm django ./manage.py makemigrations
-```
-
-```bash
-# Run your project
 docker-compose up -d
 ```
 
