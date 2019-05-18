@@ -10,6 +10,7 @@ Ready to be used with:
 * Wagtail
 * Django Webpack Loader
 * Django Debug Toolbar
+* Webpack
 * Heroku
 * PostgreSQL
 * Docker (with [Docker for Django Cookiecutter](https://github.com/jmfederico/cookiecutter-django-docker))
