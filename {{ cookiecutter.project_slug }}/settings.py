@@ -225,7 +225,8 @@ class IpNetworks:
         return False
 
 
-INTERNAL_IPS = IpNetworks(os.environ.get("INTERNAL_ADDRESSES").split(" "))
+if os.environ.get("INTERNAL_ADDRESSES"):
+    INTERNAL_IPS = IpNetworks(os.environ["INTERNAL_ADDRESSES"].split(" "))
 
 
 # Activate Django-Heroku.
