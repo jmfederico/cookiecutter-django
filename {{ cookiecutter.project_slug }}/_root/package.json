@@ -5,5 +5,10 @@
         "styleguide": "nucleus"
     },
     "dependencies": {},
-    "devDependencies": {}
+    "devDependencies": {},
+    "browserslist": [
+        "last 1 version",
+        "> 1%",
+        "IE 10"
+    ]
 }
