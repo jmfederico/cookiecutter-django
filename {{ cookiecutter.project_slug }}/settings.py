@@ -133,6 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/dev/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
+LOCALE_PATHS = [os.path.join(BASE_DIR, "locale")]
 
 TIME_ZONE = "UTC"
 
@@ -151,6 +152,11 @@ STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "styleguide", "dist"),
     os.path.join(PROJECT_DIR, "webpack", "dist"),
 ]
+# Ensure directories exist.
+# Django only creates "static". ANy other will cause an error.
+for directory in STATICFILES_DIRS:
+    os.makedirs(directory, exist_ok=True)
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
@@ -164,11 +170,15 @@ WAGTAIL_SITE_NAME = "{{ cookiecutter.project_slug }}"
 # Email
 # https://docs.djangoproject.com/en/dev/topics/email/
 
-EMAIL_HOST = os.environ["EMAIL_HOST"]
-EMAIL_PORT = os.environ["EMAIL_PORT"]
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
-EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS") == "True"
+EMAIL_BACKEND = os.environ.get(
+    "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
+)
+if EMAIL_BACKEND == "django.core.mail.backends.smtp.EmailBackend":
+    EMAIL_HOST = os.environ["EMAIL_HOST"]
+    EMAIL_PORT = os.environ["EMAIL_PORT"]
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+    EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS") == "True"
 
 MANAGERS = [("", email.strip()) for email in os.getenv("MANAGERS", "").split()]
 ADMINS = [("", email.strip()) for email in os.getenv("ADMINS", "").split()]
@@ -231,3 +241,10 @@ if os.environ.get("INTERNAL_ADDRESSES"):
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+
+# Add root console logger with configurable level.
+LOGGING["loggers"][""] = {  # pylint: disable=undefined-variable
+    "handlers": ["console"],
+    "level": os.getenv("LOG_LEVEL", "WARNING"),
+}
