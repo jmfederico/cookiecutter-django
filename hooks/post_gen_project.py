@@ -1,15 +1,25 @@
+"""Actions to be run after a successful Cookie bake."""
 import glob
-import urllib.request
 from pathlib import Path
+from urllib.request import Request, urlopen
 
-urllib.request.urlretrieve("https://www.gitignore.io/api/django,node", "../.gitignore")
 
-# Move root files.
-_root = Path("_root")
-project_root = Path("..")
-for child in _root.iterdir():
-    child.rename(project_root / child.name)
-_root.rmdir()
+def run():
+    """Actions to be run."""
+    req = Request(
+        url="https://www.gitignore.io/api/django,node", headers={"User-Agent": "Python"}
+    )
+    Path("../.gitignore").write_bytes(urlopen(req).read())
 
-for path in glob.glob('../**/.cookiecutter-keep', recursive=True):
-    Path(path).unlink()
+    # Move root files.
+    _root = Path("_root")
+    project_root = Path("..")
+    for child in _root.iterdir():
+        child.rename(project_root / child.name)
+    _root.rmdir()
+
+    for path in glob.glob("../**/.cookiecutter-keep", recursive=True):
+        Path(path).unlink()
+
+
+run()
