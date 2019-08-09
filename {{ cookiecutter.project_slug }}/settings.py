@@ -180,6 +180,12 @@ if EMAIL_BACKEND == "django.core.mail.backends.smtp.EmailBackend":
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
     EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS") == "True"
 
+if "DEFAULT_FROM_EMAIL" in os.environ:
+    DEFAULT_FROM_EMAIL = os.environ["DEFAULT_FROM_EMAIL"]
+
+if "SERVER_EMAIL" in os.environ:
+    SERVER_EMAIL = os.environ["SERVER_EMAIL"]
+
 MANAGERS = [("", email.strip()) for email in os.getenv("MANAGERS", "").split()]
 ADMINS = [("", email.strip()) for email in os.getenv("ADMINS", "").split()]
 
@@ -239,8 +245,21 @@ if os.environ.get("INTERNAL_ADDRESSES"):
     INTERNAL_IPS = IpNetworks(os.environ["INTERNAL_ADDRESSES"].split(" "))
 
 
+# SSL Settings.
+# Trust Proxy header and redirect to SSL.
+# https://docs.djangoproject.com/en/dev/ref/middleware/#django.middleware.security.SecurityMiddleware
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+
+# Allowed hosts
+# https://docs.djangoproject.com/en/dev/topics/security/#host-headers-virtual-hosting
+if os.environ.get("ALLOWED_HOSTS"):
+    ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(" ")
+
+
 # Activate Django-Heroku.
-django_heroku.settings(locals())
+django_heroku.settings(locals(), allowed_hosts=False)
 
 
 # Add root console logger with configurable level.
@@ -248,3 +267,8 @@ LOGGING["loggers"][""] = {  # pylint: disable=undefined-variable
     "handlers": ["console"],
     "level": os.getenv("LOG_LEVEL", "WARNING"),
 }
+if "DB_LOG_LEVEL" in os.environ:
+    LOGGING["loggers"]["django.db"] = {  # pylint: disable=undefined-variable
+        "handlers": ["console"],
+        "level": os.environ["DB_LOG_LEVEL"],
+    }
