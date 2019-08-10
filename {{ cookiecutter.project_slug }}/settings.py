@@ -28,8 +28,10 @@ DEBUG = os.environ.get("DEBUG") == "True"
 # Application definition
 
 INSTALLED_APPS = [
-    # Keep first so any app can override templates.
-    "django.forms",
+    # Custom apps.
+    "{{ cookiecutter.project_slug }}_user.apps.{{ cookiecutter.project_title }}UserConfig",
+    "pages",
+    "webpack_loader",
     # WagTail apps.
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -51,12 +53,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # Custom apps.
-    "webpack_loader",
-    "{{ cookiecutter.project_slug }}_user.apps.{{ cookiecutter.project_title }}UserConfig",
-    "pages",
     # Development apps.
     "debug_toolbar",
+    # Keep last so any app can override templates.
+    "django.forms",
 ]
 
 MIDDLEWARE = [
