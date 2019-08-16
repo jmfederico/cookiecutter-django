@@ -269,6 +269,5 @@ LOGGING["loggers"][""] = {  # pylint: disable=undefined-variable
 }
 if "DB_LOG_LEVEL" in os.environ:
     LOGGING["loggers"]["django.db"] = {  # pylint: disable=undefined-variable
-        "handlers": ["console"],
         "level": os.environ["DB_LOG_LEVEL"],
     }
