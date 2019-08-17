@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail.core",
+    "wagtail.contrib.postgres_search",
     "modelcluster",
     "taggit",
     # Base django apps.
@@ -165,6 +166,9 @@ MEDIA_URL = "/media/"
 # Wagtail settings
 
 WAGTAIL_SITE_NAME = "{{ cookiecutter.project_slug }}"
+WAGTAILSEARCH_BACKENDS = {
+    "default": {"BACKEND": "wagtail.contrib.postgres_search.backend"}
+}
 
 
 # Email
