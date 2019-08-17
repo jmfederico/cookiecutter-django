@@ -259,7 +259,7 @@ if os.environ.get("ALLOWED_HOSTS"):
 
 
 # Activate Django-Heroku.
-django_heroku.settings(locals(), allowed_hosts=False)
+django_heroku.settings(locals(), allowed_hosts="ALLOWED_HOSTS" not in locals())
 
 
 # Add root console logger with configurable level.
