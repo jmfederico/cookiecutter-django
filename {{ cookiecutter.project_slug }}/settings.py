@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     # Custom apps.
     "{{ cookiecutter.project_slug }}_user.apps.{{ cookiecutter.project_title }}UserConfig",
     "pages",
+    # Third-party apps
     "webpack_loader",
     # WagTail apps.
     "wagtail.contrib.forms",
