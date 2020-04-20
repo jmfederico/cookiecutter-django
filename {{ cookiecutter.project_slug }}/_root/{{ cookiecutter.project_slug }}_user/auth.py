@@ -1,7 +1,5 @@
 """Define a Backend for settings based super user credentials."""
 from django.conf import settings
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
 
 from .models import User
 
