@@ -10,8 +10,11 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 
 import ipaddress
 import os
+from copy import deepcopy
 
 import django_heroku
+from django.utils.log import DEFAULT_LOGGING
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -57,6 +60,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Development apps.
     "debug_toolbar",
+    "django_extensions",
     # Keep last so any app can override templates.
     "django.forms",
 ]
@@ -260,16 +264,25 @@ if os.environ.get("ALLOWED_HOSTS"):
     ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(" ")
 
 
-# Activate Django-Heroku.
-django_heroku.settings(locals(), allowed_hosts="ALLOWED_HOSTS" not in locals())
-
-
-# Add root console logger with configurable level.
-LOGGING["loggers"][""] = {  # pylint: disable=undefined-variable
-    "handlers": ["console"],
-    "level": os.getenv("LOG_LEVEL", "WARNING"),
+# https://docs.djangoproject.com/en/dev/topics/logging/#default-logging-configuration
+# Colorize output, and make it more verbose.
+LOGGING = deepcopy(DEFAULT_LOGGING)
+LOGGING["formatters"]["logger"] = {
+    "format": (
+        "\033[35m%(asctime)s\033[0m \033[31m[%(levelname)s]\033[0m "
+        "\033[34m[%(name)s]\033[0m %(message)s"
+    )
 }
-if "DB_LOG_LEVEL" in os.environ:
-    LOGGING["loggers"]["django.db"] = {  # pylint: disable=undefined-variable
-        "level": os.environ["DB_LOG_LEVEL"],
-    }
+LOGGING["handlers"]["console"]["level"] = "DEBUG"
+LOGGING["handlers"]["console"]["formatter"] = "logger"
+LOGGING["loggers"][""] = deepcopy(LOGGING["loggers"]["django"])
+LOGGING["loggers"]["django"]["level"] = os.environ.get("DJANGO_LOGGING_LEVEL", "INFO")
+LOGGING["loggers"]["django"]["propagate"] = False
+LOGGING["loggers"][""]["level"] = os.environ.get("ROOT_LOGGING_LEVEL", "INFO")
+
+
+# Activate Django-Heroku.
+# Useful even when not using Heroku.
+django_heroku.settings(
+    locals(), allowed_hosts="ALLOWED_HOSTS" not in locals(), logging=False
+)

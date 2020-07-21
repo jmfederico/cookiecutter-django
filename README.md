@@ -43,6 +43,7 @@ poetry add \
     wagtail \
     django_webpack_loader \
     django_debug_toolbar \
+    django_extensions \
     django_heroku \
     gunicorn
 ```
